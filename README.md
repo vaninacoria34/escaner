@@ -1,139 +1,157 @@
-# Documentación del Sistema de Ventas - Sanbauben
+# Sistema de Ventas - Sanbauben
 
-## **Descripción General**
-
-El sistema de ventas Sanbauben es una aplicación gráfica desarrollada en Python con la biblioteca `tkinter`. Permite a los usuarios gestionar un inventario de productos, registrar nuevas ventas y calcular automáticamente el total de las compras.
-
-La base de datos `SQLite` almacena la información de los productos y las ventas, lo que asegura persistencia y facilita la consulta de datos históricos.
+Este proyecto es un sistema de ventas desarrollado en Python con una interfaz gráfica basada en Tkinter y una base de datos SQLite para el almacenamiento de información. Permite registrar productos, actualizar precios, gestionar un carrito de compras y finalizar ventas, manteniendo un historial de las transacciones realizadas.
 
 ---
 
-## **Requisitos del Sistema**
+## Características Principales
 
-1. **Python 3.6 o superior**
-2. Módulos integrados:
-   - `sqlite3`
-   - `tkinter`
-3. **Opcional**:
-   - Escáner de códigos de barras compatible con teclado (USB o Bluetooth).
+1. **Gestión de Productos:**
 
----
+   - Registrar productos con código de barras, nombre, precio y descripción.
+   - Actualizar el precio de productos existentes.
 
-## **Funcionalidades Principales**
+2. **Carrito de Compras:**
 
-### **1. Registro de Productos**
+   - Escanear productos mediante su código de barras.
+   - Agregar productos al carrito de manera manual.
+   - Eliminar productos del carrito.
 
-Permite agregar productos con la siguiente información:
+3. **Gestión de Ventas:**
 
-- Código de barras (único).
-- Nombre.
-- Precio.
-- Descripción (opcional).
+   - Calcular el total del carrito en tiempo real.
+   - Finalizar y registrar una venta, incluyendo detalles como productos, precios y fecha.
 
-### **2. Escaneo de Productos**
+4. **Base de Datos SQLite:**
 
-- Simula el escaneo de productos mediante la entrada de códigos de barras.
-- Calcula automáticamente el total de la venta.
-- Muestra un resumen de los productos en el carrito.
+   - Almacena información sobre productos y ventas.
+   - Estructura robusta con claves primarias y restricciones de unicidad.
 
-### **3. Finalización de Ventas**
+5. **Interfaz Gráfica Intuitiva:**
 
-- Registra la venta completa en la base de datos.
-- Resetea el carrito para una nueva transacción.
-
-### **4. Actualización de Precios**
-
-- Modifica el precio de un producto existente en la base de datos.
+   - Diseñada con Tkinter para facilitar la interacción del usuario.
 
 ---
 
-## **Estructura de la Base de Datos**
+## Requisitos Previos
 
-### \*\*Tabla: \*\***`productos`**
+1. **Python 3.6 o superior**: Asegúrate de tener Python instalado en tu sistema.
 
-| Campo          | Tipo    | Descripción                        |
-| -------------- | ------- | ---------------------------------- |
-| `id`           | INTEGER | Identificador único.               |
-| `codigo_barra` | TEXT    | Código único del producto.         |
-| `nombre`       | TEXT    | Nombre del producto.               |
-| `precio`       | REAL    | Precio del producto.               |
-| `descripcion`  | TEXT    | Descripción opcional del producto. |
+   - [Descargar Python](https://www.python.org/downloads/)
 
-### \*\*Tabla: \*\***`ventas`**
+2. **Bibliotecas estándar**:
 
-| Campo       | Tipo    | Descripción                      |
-| ----------- | ------- | -------------------------------- |
-| `venta_id`  | INTEGER | Identificador único de la venta. |
-| `productos` | TEXT    | Lista de productos vendidos.     |
-| `total`     | REAL    | Monto total de la venta.         |
-| `fecha`     | TEXT    | Fecha y hora de la venta.        |
+   - `sqlite3` (integrada en Python).
+   - `tkinter` (también integrada en Python).
+
+3. **DB Browser for SQLite** (opcional):
+
+   - Una herramienta gráfica para explorar y administrar la base de datos SQLite.
+   - Descárgalo desde [sqlitebrowser.org](https://sqlitebrowser.org).
 
 ---
 
-## **Guía de Uso**
+## Instrucciones de Instalación
 
-### **1. Iniciar el Programa**
+1. **Clonar o descargar el repositorio:**
 
-Ejecuta el archivo principal:
+   ```bash
+   git clone <url-del-repositorio>
+   cd sistema-ventas-sanbauben
+   ```
 
-```bash
-python sanbauben_gui.py
-```
+2. **Ejecutar el script principal:**
 
-### **2. Opciones del Menú Principal**
+   ```bash
+   python main.py
+   ```
 
-#### **Registrar Producto**
+   > Esto inicializará la base de datos (`sanbauben.db`) automáticamente y abrirá la interfaz gráfica del sistema.
 
-1. Haz clic en "Registrar Producto".
-2. Completa los campos requeridos:
-   - Código de barras.
-   - Nombre del producto.
-   - Precio.
-   - Descripción (opcional).
-3. Haz clic en "Registrar".
+3. **(Opcional) Abrir la base de datos con DB Browser:**
 
-#### **Escanear Productos**
-
-1. Haz clic en "Escanear Productos".
-2. Escanea o ingresa manualmente el código de barras.
-3. Haz clic en "Agregar" para incluir el producto en el carrito.
-4. Haz clic en "Finalizar Venta" para registrar la venta y limpiar el carrito.
-
-#### **Actualizar Precio**
-
-1. Haz clic en "Actualizar Precio".
-2. Ingresa el código de barras y el nuevo precio.
-3. Haz clic en "Actualizar".
+   - Si deseas inspeccionar directamente el contenido de la base de datos, abre el archivo `sanbauben.db` con DB Browser for SQLite.
+   - Podrás explorar las tablas, editar registros y ejecutar consultas SQL de manera gráfica.
 
 ---
 
-## **Uso de un Escáner de Códigos de Barras**
+## Uso del Programa
 
-1. Conecta el escáner al puerto USB o configura el dispositivo Bluetooth.
-2. Asegúrate de que el escáner esté funcionando como un teclado.
-3. Coloca el cursor en el campo de entrada del código de barras y escanea el producto.
+### 1. **Registrar Producto**
+
+- Haz clic en el botón **"Registrar Producto"**.
+- Ingresa el código de barras, nombre, precio y descripción del producto.
+- Haz clic en **"Registrar"** para guardar el producto en la base de datos.
+
+### 2. **Actualizar Precio**
+
+- Haz clic en el botón **"Actualizar Precio"**.
+- Ingresa el código de barras del producto y el nuevo precio.
+- Haz clic en **"Actualizar"** para modificar el precio.
+
+### 3. **Escanear Productos**
+
+- Haz clic en el botón **"Escanear Productos"**.
+- Escanea o ingresa el código de barras de los productos para agregarlos al carrito.
+- Usa los botones para eliminar productos, agregar manualmente o finalizar la venta.
+
+### 4. **Finalizar Venta**
+
+- En la ventana de escaneo, haz clic en **"Finalizar Venta"**.
+- El sistema registrará la venta en la base de datos con un resumen de productos, el total y la fecha.
 
 ---
 
-## **Ampliaciones Futuras**
+## Estructura del Código
 
-- Generación de reportes de ventas (diarios, semanales, mensuales).
-- Exportación de datos a formatos CSV o PDF.
-- Gestión de inventario (control de stock).
-- Implementación de descuentos y promociones.
+- **`main.py`**:
+  Contiene la lógica principal del programa, como la inicialización de la base de datos, definición de funciones y configuración de la interfaz gráfica.
+
+- **Base de Datos SQLite**:
+
+  - Tabla `productos`:
+    - `id`: Identificador único del producto.
+    - `codigo_barra`: Código de barras único del producto.
+    - `nombre`: Nombre del producto.
+    - `precio`: Precio del producto.
+    - `descripcion`: Descripción opcional del producto.
+  - Tabla `ventas`:
+    - `venta_id`: Identificador único de la venta.
+    - `productos`: Lista de productos vendidos en formato texto.
+    - `total`: Total de la venta.
+    - `fecha`: Fecha y hora de la venta.
 
 ---
 
-## **Créditos**
+## Contribuciones
 
-Desarrollado por: VANINA CORIA -Programadora  full stack
-
-### Contacto:
-
-- **Email:** [vaninamariselccoria75@gmail.com](mailto\:vaninamariselccoria75@gmail.com)
-- **Teléfono:** 3425238984
+1. Crea un fork del repositorio.
+2. Realiza tus cambios en una nueva rama:
+   ```bash
+   git checkout -b nueva-funcionalidad
+   ```
+3. Haz un commit de tus cambios:
+   ```bash
+   git commit -m "Agregué nueva funcionalidad"
+   ```
+4. Envía los cambios:
+   ```bash
+   git push origin nueva-funcionalidad
+   ```
+5. Abre un Pull Request en el repositorio original.
 
 ---
 
-¡Gracias por usar nuestro sistema de ventas! 😊
+##
+
+---
+
+## Contacto
+
+Si tienes preguntas o problemas, no dudes en comunicarte con:
+
+- **Autor:** [Vanina Coria developer]
+- **Email:** [vaninamariselcoria75@gmail.com]
+
+---
 
