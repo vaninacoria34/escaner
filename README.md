@@ -1,157 +1,162 @@
-# Sistema de Ventas - Sanbauben
+# **Documentación del Sistema de Ventas - Sanbauben**
 
-Este proyecto es un sistema de ventas desarrollado en Python con una interfaz gráfica basada en Tkinter y una base de datos SQLite para el almacenamiento de información. Permite registrar productos, actualizar precios, gestionar un carrito de compras y finalizar ventas, manteniendo un historial de las transacciones realizadas.
+## **Descripción General**
 
----
-
-## Características Principales
-
-1. **Gestión de Productos:**
-
-   - Registrar productos con código de barras, nombre, precio y descripción.
-   - Actualizar el precio de productos existentes.
-
-2. **Carrito de Compras:**
-
-   - Escanear productos mediante su código de barras.
-   - Agregar productos al carrito de manera manual.
-   - Eliminar productos del carrito.
-
-3. **Gestión de Ventas:**
-
-   - Calcular el total del carrito en tiempo real.
-   - Finalizar y registrar una venta, incluyendo detalles como productos, precios y fecha.
-
-4. **Base de Datos SQLite:**
-
-   - Almacena información sobre productos y ventas.
-   - Estructura robusta con claves primarias y restricciones de unicidad.
-
-5. **Interfaz Gráfica Intuitiva:**
-
-   - Diseñada con Tkinter para facilitar la interacción del usuario.
+El sistema de ventas Sanbauben es una aplicación de escritorio desarrollada en Python utilizando la biblioteca Tkinter para la interfaz gráfica y SQLite como base de datos. Este sistema permite gestionar el inventario de productos, registrar ventas y realizar cálculos de totales diarios.
 
 ---
 
-## Requisitos Previos
+## **Estructura de la Base de Datos**
 
-1. **Python 3.6 o superior**: Asegúrate de tener Python instalado en tu sistema.
+El sistema utiliza una base de datos SQLite llamada `sanbauben.db`. Esta base de datos contiene las siguientes tablas:
 
-   - [Descargar Python](https://www.python.org/downloads/)
+### **Tabla: productos**
 
-2. **Bibliotecas estándar**:
+| **Campo**      | **Tipo** | **Descripción**                    |
+| -------------- | -------- | ---------------------------------- |
+| `id`           | INTEGER  | Identificador único del producto.  |
+| `codigo_barra` | TEXT     | Código único del producto.         |
+| `nombre`       | TEXT     | Nombre del producto.               |
+| `precio`       | REAL     | Precio del producto.               |
+| `descripcion`  | TEXT     | Descripción opcional del producto. |
 
-   - `sqlite3` (integrada en Python).
-   - `tkinter` (también integrada en Python).
+- **Funcionalidad**: Esta tabla almacena los datos básicos de los productos registrados en el sistema.
 
-3. **DB Browser for SQLite** (opcional):
+### **Tabla: ventas**
 
-   - Una herramienta gráfica para explorar y administrar la base de datos SQLite.
-   - Descárgalo desde [sqlitebrowser.org](https://sqlitebrowser.org).
+| **Campo**   | **Tipo** | **Descripción**                     |
+| ----------- | -------- | ----------------------------------- |
+| `venta_id`  | INTEGER  | Identificador único de la venta.    |
+| `productos` | TEXT     | Detalles de los productos vendidos. |
+| `total`     | REAL     | Monto total de la venta.            |
+| `fecha`     | TEXT     | Fecha y hora de la venta.           |
 
----
+- **Funcionalidad**: Registra cada venta realizada, incluyendo los productos vendidos, el total y la fecha.
 
-## Instrucciones de Instalación
+### **Tabla: ventas\_diarias**
 
-1. **Clonar o descargar el repositorio:**
+| **Campo** | **Tipo** | **Descripción**                   |
+| --------- | -------- | --------------------------------- |
+| `id`      | INTEGER  | Identificador único del registro. |
+| `fecha`   | TEXT     | Fecha del registro diario.        |
+| `total`   | REAL     | Total de las ventas del día.      |
 
-   ```bash
-   git clone <url-del-repositorio>
-   cd sistema-ventas-sanbauben
-   ```
-
-2. **Ejecutar el script principal:**
-
-   ```bash
-   python main.py
-   ```
-
-   > Esto inicializará la base de datos (`sanbauben.db`) automáticamente y abrirá la interfaz gráfica del sistema.
-
-3. **(Opcional) Abrir la base de datos con DB Browser:**
-
-   - Si deseas inspeccionar directamente el contenido de la base de datos, abre el archivo `sanbauben.db` con DB Browser for SQLite.
-   - Podrás explorar las tablas, editar registros y ejecutar consultas SQL de manera gráfica.
+- **Funcionalidad**: Almacena los totales diarios calculados, permitiendo consultar el rendimiento de las ventas por día.
 
 ---
 
-## Uso del Programa
+## **Funcionalidades del Sistema**
 
-### 1. **Registrar Producto**
+### **1. Registrar Productos**
 
-- Haz clic en el botón **"Registrar Producto"**.
-- Ingresa el código de barras, nombre, precio y descripción del producto.
-- Haz clic en **"Registrar"** para guardar el producto en la base de datos.
+- **Descripción**: Permite agregar nuevos productos al inventario.
+- **Uso**: Desde la interfaz, se ingresan el código de barras, nombre, precio y descripción del producto.
+- **Base de Datos**: Los datos se guardan en la tabla `productos`.
 
-### 2. **Actualizar Precio**
+### **2. Escanear Productos y Registrar Ventas**
 
-- Haz clic en el botón **"Actualizar Precio"**.
-- Ingresa el código de barras del producto y el nuevo precio.
-- Haz clic en **"Actualizar"** para modificar el precio.
+- **Descripción**: Facilita el registro de ventas mediante el escaneo o ingreso manual de códigos de barras.
+- **Uso**:
+  1. Escanea o ingresa el código de barras del producto.
+  2. Agrega los productos al carrito.
+  3. Finaliza la venta para registrar el total en la tabla `ventas`.
 
-### 3. **Escanear Productos**
+### **3. Agregar Productos Manualmente**
 
-- Haz clic en el botón **"Escanear Productos"**.
-- Escanea o ingresa el código de barras de los productos para agregarlos al carrito.
-- Usa los botones para eliminar productos, agregar manualmente o finalizar la venta.
+- **Descripción**: Permite registrar productos directamente en el carrito sin necesidad de un código de barras.
+- **Uso**:
+  1. En la ventana de escaneo, haz clic en "Agregar Manualmente".
+  2. Ingresa el nombre del producto y su precio.
+  3. El producto se añadirá al carrito y se incluirá en la venta al finalizar.
 
-### 4. **Finalizar Venta**
+### **4. Actualizar Precios**
 
-- En la ventana de escaneo, haz clic en **"Finalizar Venta"**.
-- El sistema registrará la venta en la base de datos con un resumen de productos, el total y la fecha.
+- **Descripción**: Modifica el precio de productos existentes.
+- **Uso**: Se ingresa el código de barras y el nuevo precio en la interfaz.
+- **Base de Datos**: Se actualiza el campo `precio` en la tabla `productos`.
 
----
+### **5. Calcular Total del Día**
 
-## Estructura del Código
-
-- **`main.py`**:
-  Contiene la lógica principal del programa, como la inicialización de la base de datos, definición de funciones y configuración de la interfaz gráfica.
-
-- **Base de Datos SQLite**:
-
-  - Tabla `productos`:
-    - `id`: Identificador único del producto.
-    - `codigo_barra`: Código de barras único del producto.
-    - `nombre`: Nombre del producto.
-    - `precio`: Precio del producto.
-    - `descripcion`: Descripción opcional del producto.
-  - Tabla `ventas`:
-    - `venta_id`: Identificador único de la venta.
-    - `productos`: Lista de productos vendidos en formato texto.
-    - `total`: Total de la venta.
-    - `fecha`: Fecha y hora de la venta.
+- **Descripción**: Calcula y registra automáticamente el total de las ventas realizadas en el día.
+- **Uso**: Al presionar el botón "Calcular Total del Día", se muestra el total y se almacena en la tabla `ventas_diarias`.
 
 ---
 
-## Contribuciones
+## **Guía de Instalación**
 
-1. Crea un fork del repositorio.
-2. Realiza tus cambios en una nueva rama:
-   ```bash
-   git checkout -b nueva-funcionalidad
-   ```
-3. Haz un commit de tus cambios:
-   ```bash
-   git commit -m "Agregué nueva funcionalidad"
-   ```
-4. Envía los cambios:
-   ```bash
-   git push origin nueva-funcionalidad
-   ```
-5. Abre un Pull Request en el repositorio original.
+### **Requisitos Previos**
+
+1. **Instalar Python**:
+
+   - Descarga e instala Python 3.6 o superior desde [python.org](https://www.python.org/).
+   - Asegúrate de incluir Python en el PATH durante la instalación.
+
+2. **Instalar DB Browser for SQLite** (opcional):
+
+   - Descarga e instala [DB Browser for SQLite](https://sqlitebrowser.org/) para visualizar y gestionar la base de datos fácilmente.
+
+### **Instalación del Sistema**
+
+1. **Descargar el Proyecto**:
+
+   - Copia el archivo `sanbauben.py` en la computadora del cliente.
+
+2. **Ejecutar el Sistema**:
+
+   - Abre una terminal o consola.
+   - Navega a la ubicación del archivo `sanbauben.py`.
+   - Ejecuta el programa con:
+     ```bash
+     python sanbauben.py
+     ```
+
+3. **Generación Automática de la Base de Datos**:
+
+   - La primera vez que se ejecute el programa, se generará automáticamente el archivo `sanbauben.db` con las tablas necesarias.
 
 ---
 
-##
+## **Guía de Uso**
+
+1. **Registrar un Producto**:
+
+   - Haz clic en "Registrar Producto".
+   - Completa los campos del formulario.
+   - Presiona "Registrar" para guardar el producto.
+
+2. **Registrar una Venta**:
+
+   - Haz clic en "Escanear Productos".
+   - Escanea o ingresa manualmente los códigos de los productos.
+   - Finaliza la venta para registrar los datos.
+
+3. **Agregar un Producto Manualmente**:
+
+   - En la ventana de escaneo, haz clic en "Agregar Manualmente".
+   - Ingresa el nombre del producto y el precio.
+   - El producto se añadirá al carrito.
+
+4. **Actualizar Precio**:
+
+   - Haz clic en "Actualizar Precio".
+   - Ingresa el código de barras y el nuevo precio.
+   - Presiona "Actualizar".
+
+5. **Calcular Total del Día**:
+
+   - Haz clic en "Calcular Total del Día".
+   - El total del día será mostrado y registrado automáticamente.
 
 ---
 
-## Contacto
+## **Contacto**
 
-Si tienes preguntas o problemas, no dudes en comunicarte con:
-
-- **Autor:** [Vanina Coria developer]
-- **Email:** [vaninamariselcoria75@gmail.com]
+- **Cliente**: Guillermo GELI
+- **Desarrolladora**: Vanina Marisel Coria
+- **Email**: [vaninamariselcoria75@gmail.com](mailto\:vaninamariselcoria75@gmail.com)
+- **Teléfono**: 3425238984
 
 ---
+
+¡Gracias por confiar en nuestro sistema de ventas! Si tienes dudas o necesitas soporte, no dudes en contactarnos.
 
